@@ -1,6 +1,6 @@
 export const API_BASE_URL =
   import.meta.env.PROD
-    ? "https://bizintel-backend-production.up.railway.app"
+    : "https://bizintel-backend-production.up.railway.app"
     : "http://localhost:5000";
 
 export async function apiFetch(
