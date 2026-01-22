@@ -37,7 +37,7 @@ export function ScraperPanel({
   };
 
   return (
-    <div className="bg-white rounded-lg border p-6 flex flex-col">
+   <div className="flex flex-col h-full min-h-[300px] bg-white rounded-lg border border-border">
       <h2 className="mb-4">Business Scraper</h2>
 
       <div className="flex gap-2 mb-6">

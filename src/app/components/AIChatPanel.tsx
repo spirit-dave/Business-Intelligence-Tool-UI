@@ -62,7 +62,7 @@ export function AIChatPanel({
   };
 
   return (
-    <div className="bg-white rounded-lg border flex flex-col h-full">
+    <div className="flex flex-col h-full min-h-[300px] bg-white rounded-lg border border-border">
       <div className="p-6 border-b">
         <div className="flex gap-2 items-center">
           <Sparkles className="text-primary" />
