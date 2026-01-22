@@ -70,7 +70,7 @@ export function AIChatPanel({
         </div>
       </div>
 
-      <div className="flex-1 p-6 overflow-y-auto space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
         {messages.map(m => (
           <div
             key={m.id}
@@ -97,7 +97,7 @@ export function AIChatPanel({
           placeholder="Ask about the business..."
           onKeyDown={e => e.key === "Enter" && !e.shiftKey && handleSend()}
         />
-        <Button onClick={handleSend}>
+        <Button className="self-end h-10 w-10 sm:h-auto sm:w-auto">
           <Send />
         </Button>
       </div>

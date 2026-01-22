@@ -52,7 +52,7 @@ export default function App() {
 
       {/* Main Content */}
       <main className="max-w-[1800px] mx-auto px-6 py-8">
-        <div className="grid grid-cols-2 gap-6 h-[calc(100vh-140px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[calc(100vh-140px)]">
           {/* Left Panel */}
           <ScraperPanel onDataScraped={setBusinessData} />
 
