@@ -1,6 +1,6 @@
 export const API_BASE_URL =
   import.meta.env.PROD
-    ? "bizintel-backend.railway.internal"
+    ? "https://bizintel-backend-production.up.railway.app"
     : "http://localhost:5000";
 
 export async function apiFetch(
@@ -8,7 +8,6 @@ export async function apiFetch(
   options: RequestInit = {}
 ) {
   const res = await fetch(`${API_BASE_URL}${path}`, {
-    credentials: "include", // 🔥 REQUIRED for stateful backend
     headers: {
       "Content-Type": "application/json",
       ...(options.headers || {}),
