@@ -1,6 +1,6 @@
 export const API_BASE_URL =
   import.meta.env.PROD
-    ? "https://YOUR-BACKEND.onrender.com"
+    ? "bizintel-backend.railway.internal"
     : "http://localhost:5000";
 
 export async function apiFetch(
