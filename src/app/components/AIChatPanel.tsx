@@ -10,11 +10,7 @@ interface Message {
   content: string;
 }
 
-export function AIChatPanel({
-  businessData,
-}: {
-  businessData: any;
-}) {
+export function AIChatPanel({ businessData }: { businessData: any }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,7 +23,7 @@ export function AIChatPanel({
   const handleSend = async () => {
     if (!input.trim() || loading) return;
 
-    const question = input;
+    const question = input.trim();
     setInput("");
     setLoading(true);
 
@@ -63,42 +59,82 @@ export function AIChatPanel({
 
   return (
     <div className="bg-white rounded-lg border flex flex-col h-full">
-      <div className="p-6 border-b">
+      {/* Header */}
+      <div className="p-4 sm:p-6 border-b">
         <div className="flex gap-2 items-center">
-          <Sparkles className="text-primary" />
-          <h2>AI Business Assistant</h2>
+          <Sparkles className="text-primary w-5 h-5" />
+          <h2 className="font-medium">AI Business Assistant</h2>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto px-4 py-4 sm:px-6 space-y-4">
         {messages.map(m => (
           <div
             key={m.id}
-            className={`flex gap-2 ${
+            className={`flex gap-2 items-start ${
               m.role === "user" ? "justify-end" : ""
             }`}
           >
-            {m.role === "assistant" && <Bot />}
-            <div className="bg-accent/40 rounded-lg p-3 max-w-[75%]">
+            {m.role === "assistant" && (
+              <Bot className="w-4 h-4 mt-1 shrink-0 text-muted-foreground" />
+            )}
+
+            <div
+              className={`
+                rounded-lg
+                p-3
+                text-sm
+                leading-relaxed
+                whitespace-pre-wrap
+                break-words
+                max-w-[85%]
+                sm:max-w-[75%]
+                ${
+                  m.role === "user"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-accent/40"
+                }
+              `}
+            >
               {m.content}
             </div>
-            {m.role === "user" && <User />}
+
+            {m.role === "user" && (
+              <User className="w-4 h-4 mt-1 shrink-0 text-muted-foreground" />
+            )}
           </div>
         ))}
 
-        {loading && <div>Thinking…</div>}
+        {loading && (
+          <div className="text-sm text-muted-foreground italic">
+            Thinking…
+          </div>
+        )}
+
         <div ref={bottomRef} />
       </div>
 
-      <div className="p-6 border-t flex gap-2">
+      {/* Input */}
+      <div className="p-4 sm:p-6 border-t flex gap-2">
         <Textarea
           value={input}
           onChange={e => setInput(e.target.value)}
           placeholder="Ask about the business..."
-          onKeyDown={e => e.key === "Enter" && !e.shiftKey && handleSend()}
+          className="resize-none"
+          onKeyDown={e => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
         />
-        <Button className="self-end h-10 w-10 sm:h-auto sm:w-auto">
-          <Send />
+        <Button
+          onClick={handleSend}
+          disabled={loading}
+          className="self-end h-10 w-10 sm:h-auto sm:w-auto"
+        >
+          <Send className="w-4 h-4" />
         </Button>
       </div>
     </div>
