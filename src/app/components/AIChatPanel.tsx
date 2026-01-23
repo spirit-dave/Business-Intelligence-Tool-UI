@@ -58,22 +58,24 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
   };
 
   return (
-    <div className="bg-white rounded-lg border flex flex-col h-full">
+    <div className="bg-white rounded-lg border flex flex-col h-full min-h-0">
       {/* Header */}
-      <div className="p-4 sm:p-6 border-b">
+      <div className="p-4 sm:p-6 border-b shrink-0">
         <div className="flex gap-2 items-center">
           <Sparkles className="text-primary w-5 h-5" />
-          <h2 className="font-medium">AI Business Assistant</h2>
+          <h2 className="font-medium text-sm sm:text-base">
+            AI Business Assistant
+          </h2>
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 sm:px-6 space-y-4">
+      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain scroll-smooth px-3 py-4 sm:px-6 space-y-4">
         {messages.map(m => (
           <div
             key={m.id}
             className={`flex gap-2 items-start ${
-              m.role === "user" ? "justify-end" : ""
+              m.role === "user" ? "justify-end" : "justify-start"
             }`}
           >
             {m.role === "assistant" && (
@@ -83,17 +85,20 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
             <div
               className={`
                 rounded-lg
-                p-3
+                px-3 py-2.5
                 text-sm
                 leading-relaxed
                 whitespace-pre-wrap
                 break-words
-                max-w-[85%]
+                break-all
+                overflow-hidden
+                w-fit
+                max-w-[92%]
                 sm:max-w-[75%]
                 ${
                   m.role === "user"
                     ? "bg-primary text-primary-foreground"
-                    : "bg-accent/40"
+                    : "bg-accent/40 text-foreground"
                 }
               `}
             >
@@ -107,7 +112,7 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
         ))}
 
         {loading && (
-          <div className="text-sm text-muted-foreground italic">
+          <div className="text-xs text-muted-foreground italic px-2">
             Thinking…
           </div>
         )}
@@ -116,26 +121,30 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
       </div>
 
       {/* Input */}
-      <div className="p-4 sm:p-6 border-t flex gap-2">
-        <Textarea
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          placeholder="Ask about the business..."
-          className="resize-none"
-          onKeyDown={e => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-        />
-        <Button
-          onClick={handleSend}
-          disabled={loading}
-          className="self-end h-10 w-10 sm:h-auto sm:w-auto"
-        >
-          <Send className="w-4 h-4" />
-        </Button>
+      <div className="p-3 sm:p-6 border-t shrink-0">
+        <div className="flex gap-2 items-end">
+          <Textarea
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder="Ask about the business..."
+            className="resize-none text-sm leading-relaxed max-h-32"
+            rows={2}
+            onKeyDown={e => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+          />
+
+          <Button
+            onClick={handleSend}
+            disabled={loading}
+            className="h-10 w-10 shrink-0"
+          >
+            <Send className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );
