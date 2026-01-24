@@ -70,7 +70,7 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain scroll-smooth px-3 py-4 sm:px-6 space-y-4">
+      <div className="flex-1 min-h-0 overflow-y-auto px-3 py-4 sm:px-6 space-y-4">
         {messages.map(m => (
           <div
             key={m.id}
@@ -90,10 +90,7 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
                 leading-relaxed
                 whitespace-pre-wrap
                 break-words
-                break-all
-                overflow-hidden
-                w-fit
-                max-w-[92%]
+                max-w-[100%]
                 sm:max-w-[75%]
                 ${
                   m.role === "user"
