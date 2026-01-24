@@ -8,12 +8,12 @@ export default function App() {
   const [businessData, setBusinessData] = useState<any>(null);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Top Navigation */}
       <nav className="border-b border-border bg-white">
-        <div className="max-w-[1800px] mx-auto px-6 py-4">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg bg-primary">
                   <BarChart3 className="h-5 w-5 text-primary-foreground" />
@@ -21,7 +21,7 @@ export default function App() {
                 <span className="font-semibold">BizIntel</span>
               </div>
 
-              <div className="flex gap-1">
+              <div className="hidden sm:flex gap-1">
                 {["dashboard", "scraper", "insights", "settings"].map(tab => (
                   <button
                     key={tab}
@@ -41,7 +41,7 @@ export default function App() {
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-muted-foreground hidden sm:block">
                 Early Access
               </span>
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -51,16 +51,19 @@ export default function App() {
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-[1800px] mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[calc(100vh-140px)]">
-          {/* Left Panel */}
-          <ScraperPanel onDataScraped={setBusinessData} />
-
-          {/* Right Panel */}
-          <AIChatPanel businessData={businessData} />
+      <main className="flex-1">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 py-6">
+          {/* IMPORTANT:
+              - No fixed heights
+              - No min-h calc
+              - Let the page scroll naturally
+          */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+            <ScraperPanel onDataScraped={setBusinessData} />
+            <AIChatPanel businessData={businessData} />
+          </div>
         </div>
       </main>
     </div>
   );
 }
-
