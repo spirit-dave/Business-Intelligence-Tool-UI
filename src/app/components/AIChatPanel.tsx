@@ -69,12 +69,12 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
         </div>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 min-h-0 overflow-y-auto px-3 py-4 sm:px-6 space-y-4">
+            {/* Messages */}
+      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain scroll-smooth px-3 py-4 sm:px-6 space-y-4">
         {messages.map(m => (
           <div
             key={m.id}
-            className={`flex gap-2 items-start ${
+            className={`flex items-start gap-2 ${
               m.role === "user" ? "justify-end" : "justify-start"
             }`}
           >
@@ -90,7 +90,9 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
                 leading-relaxed
                 whitespace-pre-wrap
                 break-words
-                max-w-[100%]
+                flex-1
+                min-w-0
+                max-w-[95%]
                 sm:max-w-[75%]
                 ${
                   m.role === "user"
