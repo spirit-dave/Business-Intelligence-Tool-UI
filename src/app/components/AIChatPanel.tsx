@@ -40,7 +40,7 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
         {
           id: crypto.randomUUID(),
           role: "assistant",
-          content: res.message,
+          content: res.message || "No response generated.",
         },
       ]);
     } catch {
@@ -58,46 +58,37 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
   };
 
   return (
-    <div className="bg-white rounded-lg border flex flex-col h-full min-h-0">
+    <div className="flex flex-col h-full bg-white rounded-lg border">
       {/* Header */}
-      <div className="p-4 sm:p-6 border-b shrink-0">
-        <div className="flex gap-2 items-center">
-          <Sparkles className="text-primary w-5 h-5" />
-          <h2 className="font-medium text-sm sm:text-base">
-            AI Business Assistant
-          </h2>
+      <div className="shrink-0 border-b px-4 py-3 sm:px-6">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-5 w-5 text-primary" />
+          <h2 className="font-medium">AI Business Assistant</h2>
         </div>
       </div>
 
-            {/* Messages */}
-      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain scroll-smooth px-3 py-4 sm:px-6 space-y-4">
+      {/* SCROLLABLE MESSAGE AREA */}
+      <div className="flex-1 min-h-0 overflow-y-auto px-4 py-4 sm:px-6 space-y-4">
         {messages.map(m => (
           <div
             key={m.id}
             className={`flex items-start gap-2 ${
-              m.role === "user" ? "justify-end" : "justify-start"
+              m.role === "user" ? "justify-end" : ""
             }`}
           >
             {m.role === "assistant" && (
-              <Bot className="w-4 h-4 mt-1 shrink-0 text-muted-foreground" />
+              <Bot className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
             )}
 
             <div
               className={`
-                rounded-lg
-                px-3 py-2.5
-                text-sm
-                leading-relaxed
-                whitespace-pre-wrap
-                break-words
-                flex-1
-                min-w-0
-                max-w-[95%]
-                sm:max-w-[75%]
+                max-w-[85%] sm:max-w-[75%]
+                rounded-xl px-4 py-3 text-sm leading-relaxed
+                whitespace-pre-wrap break-words
                 ${
                   m.role === "user"
                     ? "bg-primary text-primary-foreground"
-                    : "bg-accent/40 text-foreground"
+                    : "bg-muted"
                 }
               `}
             >
@@ -105,13 +96,13 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
             </div>
 
             {m.role === "user" && (
-              <User className="w-4 h-4 mt-1 shrink-0 text-muted-foreground" />
+              <User className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
             )}
           </div>
         ))}
 
         {loading && (
-          <div className="text-xs text-muted-foreground italic px-2">
+          <div className="text-sm italic text-muted-foreground">
             Thinking…
           </div>
         )}
@@ -120,30 +111,27 @@ export function AIChatPanel({ businessData }: { businessData: any }) {
       </div>
 
       {/* Input */}
-      <div className="p-3 sm:p-6 border-t shrink-0">
-        <div className="flex gap-2 items-end">
-          <Textarea
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            placeholder="Ask about the business..."
-            className="resize-none text-sm leading-relaxed max-h-32"
-            rows={2}
-            onKeyDown={e => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
-              }
-            }}
-          />
-
-          <Button
-            onClick={handleSend}
-            disabled={loading}
-            className="h-10 w-10 shrink-0"
-          >
-            <Send className="w-4 h-4" />
-          </Button>
-        </div>
+      <div className="shrink-0 border-t px-4 py-3 sm:px-6 flex gap-2">
+        <Textarea
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          placeholder="Ask about the business..."
+          className="resize-none"
+          rows={2}
+          onKeyDown={e => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
+        />
+        <Button
+          onClick={handleSend}
+          disabled={loading}
+          className="h-10 w-10 shrink-0"
+        >
+          <Send className="h-4 w-4" />
+        </Button>
       </div>
     </div>
   );
