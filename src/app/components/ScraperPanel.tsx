@@ -22,13 +22,13 @@ export function ScraperPanel({
   const [data, setData] = useState<BusinessData | null>(null);
 
   const handleScrape = async () => {
-    if (!url) return;
-    setLoading(true);
+    if (!url.trim()) return;
 
+    setLoading(true);
     try {
-      const res = await scrapeBusiness(url);
+      const res = await scrapeBusiness(url.trim());
       setData(res);
-      onDataScraped(res); // 🔥 CRITICAL
+      onDataScraped(res); // 🔥 critical – keep this
     } catch {
       alert("Failed to scrape website");
     } finally {
@@ -37,33 +37,44 @@ export function ScraperPanel({
   };
 
   return (
-   <div className="flex flex-col h-full min-h-[300px] bg-white rounded-lg border border-border">
+    <div className="flex flex-col h-full min-h-[300px] bg-white rounded-lg border border-border p-4">
       <h2 className="mb-4">Business Scraper</h2>
 
-      <div className="flex gap-2 mb-6">
+      {/* ✅ FORM FIX */}
+      <form
+        className="flex gap-2 mb-6"
+        onSubmit={e => {
+          e.preventDefault(); // stop page reload
+          handleScrape();
+        }}
+      >
         <Input
           placeholder="https://example.com"
           value={url}
           onChange={e => setUrl(e.target.value)}
         />
-        <Button onClick={handleScrape} disabled={loading}>
+        <Button type="submit" disabled={loading}>
           {loading ? <Loader2 className="animate-spin" /> : "Scrape"}
         </Button>
-      </div>
+      </form>
 
       {data && (
         <div className="space-y-3 text-sm">
           <div className="flex items-center gap-2">
-            <Globe /> {data.business_name}
+            <Globe className="w-4 h-4" />
+            <span>{data.business_name}</span>
           </div>
+
           <div>{data.description}</div>
 
-          <div>
-            <Mail /> {data.emails.join(", ") || "No emails"}
+          <div className="flex items-center gap-2">
+            <Mail className="w-4 h-4" />
+            <span>{data.emails.join(", ") || "No emails"}</span>
           </div>
 
-          <div>
-            <Phone /> {data.phones.join(", ") || "No phones"}
+          <div className="flex items-center gap-2">
+            <Phone className="w-4 h-4" />
+            <span>{data.phones.join(", ") || "No phones"}</span>
           </div>
         </div>
       )}
